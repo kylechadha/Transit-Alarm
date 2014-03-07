@@ -7,7 +7,7 @@ gem 'rails', '4.0.2'
 gem 'pg'
 
 # Use Rspec for testing
-group :test do
+group :development, :test do
   gem 'rspec-rails'
 end
 
