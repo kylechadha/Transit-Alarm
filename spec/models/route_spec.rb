@@ -55,7 +55,7 @@ describe Route do
       end
     end
 
-    context '.trip' do
+    context '.trips' do
       it 'should have many trips' do
         route = Route.create(@valid_attributes)
         trip = Trip.create(gtfs_route_id: "1963", gtfs_trip_id: "583787", direction_id: 0, route_id: route.id)

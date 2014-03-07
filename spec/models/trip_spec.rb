@@ -59,7 +59,7 @@ describe Trip do
     context '.stop_times' do
       it 'should have many stop_times' do
         trip = Trip.create(@valid_attributes)
-        stoptime = StopTime.create(trip_id: trip.id)
+        stoptime = StopTime.create(gtfs_trip_id: "582512", gtfs_stop_id: "389", sequence: 44, trip_id: trip.id)
         expect(trip.stop_times.last).to eq(stoptime)
       end
     end
