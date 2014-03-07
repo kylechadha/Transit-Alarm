@@ -77,7 +77,7 @@ StopTime.delete_all
 open("db/stop_times.txt") do |file|
   file.read.each_line do |data|
     gtfs_trip_id, arrival_time, departure_time, gtfs_stop_id, sequence, headsign, pickup_type, drop_off_type, shape_dist_traveled = data.chomp.split(",")
-    StopTim.ecreate!(gtfs_trip_id: gtfs_trip_id, arrival_time: arrival_time, departure_time: departure_time, gtfs_stop_id: gtfs_stop_id, sequence: sequence, headsign: headsign, pickup_type: pickup_type, drop_off_type: drop_off_type, shape_dist_traveled: shape_dist_traveled)
+    StopTime.create!(gtfs_trip_id: gtfs_trip_id, arrival_time: arrival_time, departure_time: departure_time, gtfs_stop_id: gtfs_stop_id, sequence: sequence, headsign: headsign, pickup_type: pickup_type, drop_off_type: drop_off_type, shape_dist_traveled: shape_dist_traveled)
   end
 end
 
