@@ -36,7 +36,7 @@ describe Trip do
       end
     end
 
-    context 'when direction_id is not an integer' do
+    context 'when direction_id is not a boolean' do
       it 'the record is not valid' do
         expect(Trip.new(@valid_attributes.merge(direction_id: "fox"))).not_to be_valid
       end

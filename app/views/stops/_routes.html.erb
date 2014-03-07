@@ -1,0 +1,22 @@
+<% routes_array = [] %>
+
+<h3>And here's the unique routes they correspond to:</h3>
+
+<% @nearby.each do |stop| %>
+  <% stop.routes.distinct.each do |route| %>
+    <% routes_array.push(route) %>
+  <% end %>
+<% end %>
+
+<ul>
+<% routes_array.uniq.each do |record| %>
+  <li><%= "Route #{record.short_name}: #{record.long_name}" %>
+    <%= link_to journeys_destination_path(id: record, direction: 1, lat: params[:lat], lon: params[:lon]) do %>
+      <%= record.outbound ? '<li style="list-style-type:circle; list-style-position: inside"><span class="glyphicon glyphicon-chevron-right"></span>'.html_safe + record.outbound + '</li>'.html_safe : "" %>
+    <% end %>
+    <%= link_to journeys_destination_path(id: record, direction: 0, lat: params[:lat], lon: params[:lon]) do %>
+      <%= record.inbound ? '<li style="list-style-type:circle; list-style-position: inside"><span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound + '</li>'.html_safe : "" %>    
+    <% end %>
+  </li>
+<% end %>
+</ul>

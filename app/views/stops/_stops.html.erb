@@ -1,0 +1,6 @@
+<h3>Here's a list of stops near you:</h3>
+<ul>
+  <% @nearby.each do |stop| %>
+    <li><strong><%= stop.name %></strong> (<%= stop.lat %>, <%= stop.lon %>)</li>
+  <% end %>
+</ul>
