@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Route do
+
   before :each do
     @valid_attributes = {
       gtfs_route_id: "1944",
@@ -44,6 +45,24 @@ describe Route do
 
   end
 
+  describe 'relationships' do
 
+    context '.agency' do
+      it 'should belong to agency' do
+        agency = Agency.create(gtfs_agency_id: "1024789")
+        route = Route.create(@valid_attributes.merge(agency_id: agency.id))
+        expect(route.agency).to eq(agency)
+      end
+    end
+
+    context '.trip' do
+      it 'should have many trips' do
+        route = Route.create(@valid_attributes)
+        trip = Trip.create(gtfs_route_id: "1963", gtfs_trip_id: "583787", direction_id: 0, route_id: route.id)
+        expect(route.trips.last).to eq(trip)
+      end
+    end
+
+  end
 
 end
