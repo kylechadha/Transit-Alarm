@@ -18,29 +18,49 @@ describe StopTime do
       end
     end
 
-    # context 'when all attributes are valid' do
-    #   it 'the record is valid' do
-    #     expect(StopTime.new(@valid_attributes)).to be_valid
-    #   end
-    # end
+    context 'when gtfs_stop_id is missing' do
+      it 'the record is not valid' do
+        expect(StopTime.new(@valid_attributes.merge(gtfs_stop_id: nil))).not_to be_valid
+      end
+    end
 
-  # describe 'relationships' do
+    context 'when sequence is missing' do
+      it 'the record is not valid' do
+        expect(StopTime.new(@valid_attributes.merge(sequence: nil))).not_to be_valid
+      end
+    end
 
-  #   context '.route' do
-  #     it 'should belong to route' do
-  #       route = Route.create(gtfs_route_id: "1024", short_name: "19", long_name: "Awesome route number 19", route_type: 4)
-  #       trip = Trip.create(@valid_attributes.merge(route_id: route.id))
-  #       expect(trip.route).to eq(route)
-  #     end
-  #   end
+    context 'when sequence is not an integer' do
+      it 'the record is not valid' do
+        expect(StopTime.new(@valid_attributes.merge(sequence: "fox"))).not_to be_valid
+      end
+    end
 
-    # context '.stop_times' do
-    #   it 'should have many stop_times' do
-    #     trip = Trip.create(@valid_attributes)
-    #     stoptime = StopTime.create(trip_id: trip.id)
-    #     expect(trip.stop_times.last).to eq(stoptime)
-    #   end
-    # end
+    context 'when all attributes are valid' do
+      it 'the record is valid' do
+        expect(StopTime.new(@valid_attributes)).to be_valid
+      end
+    end
+
+  end
+
+  describe 'relationships' do
+
+    context '.trip' do
+      it 'should belong to trip' do
+        trip = Trip.create(gtfs_route_id: "1963", gtfs_trip_id: "583787", direction_id: 0)
+        stoptime = StopTime.create(@valid_attributes.merge(trip_id: trip.id))
+        expect(stoptime.trip).to eq(trip)
+      end
+    end
+
+    context '.stop' do
+      it 'should belong to stop' do
+        stop = Stop.create(gtfs_stop_id: "230", name: "Santa Monica Wb & Bundy Fs", lat: 33.9879239, lon: -118.4717181)
+        stoptime = StopTime.create(@valid_attributes.merge(stop_id: stop.id))
+        expect(stoptime.stop).to eq(stop)
+      end
+    end
 
   end
 
