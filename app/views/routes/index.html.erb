@@ -1,0 +1,21 @@
+<h3>List of Routes</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Route ID</th>
+    <th>GTFS Route ID</th>
+    <th>Line</th>
+    <th>Route Name</th>
+    <th>Direction 0 (Inbound)</th>
+    <th>Direction 1 (Outbound)</th>
+  </tr>
+  <% @routes.each do |route| %>
+    <tr>
+      <td><%= route.id %></td>
+      <td><%= route.gtfs_route_id %></td>
+      <td><%= route.short_name %></td>
+      <td><%= route.long_name %></td>
+      <td><%= route.inbound %></td>
+      <td><%= route.outbound %></td>
+    </tr>
+  <% end %>
+</table>

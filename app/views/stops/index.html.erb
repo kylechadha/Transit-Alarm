@@ -1,0 +1,19 @@
+<h3>List of Stops</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Stop ID</th>
+    <th>GTFS Stop ID</th>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+  </tr>
+  <% @stops.each do |stop| %>
+    <tr>
+      <td><%= stop.id %></td>
+      <td><%= stop.gtfs_stop_id %></td>
+      <td><%= stop.name %></td>
+      <td><%= stop.lat %></td>
+      <td><%= stop.lon %></td>
+    </tr>
+  <% end %>
+</table>
