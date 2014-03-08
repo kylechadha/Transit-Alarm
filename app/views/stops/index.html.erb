@@ -65,7 +65,7 @@
         locationInfo = position.coords.latitude + ", " + position.coords.longitude;
         $('#locationDisplay').text(locationInfo);
 
-        $.get("/journeys/selection", {lat: position.coords.latitude, lon: position.coords.longitude}, null, 'script')
+        $.get("/stops/", {lat: position.coords.latitude, lon: position.coords.longitude}, null, 'script')
     }
 </script>
 

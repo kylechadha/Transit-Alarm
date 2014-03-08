@@ -1,0 +1,24 @@
+<h2>Well hello there, you've reached the destination selection page!</h2>
+<br>
+<h4>Here's the route & direction that brought you here:</h4>
+<h3>
+  <strong><%= "Route #{@route.short_name}: #{@route.long_name}" %></strong>, heading <strong><%= @direction == "0" ? @route.inbound : @route.outbound %></strong>
+</h3><br>
+
+<h4>For that route, here's a random trip that satisfies our criteria of having the max number of stops. Feel free to check the direction_id matches, too!</h4>
+Trip ID: <%= @trip.id %><br>
+GTFS Trip ID: <%= @trip.gtfs_trip_id %><br>
+Direction ID: <%= @trip.direction_id %><br><br>
+
+<h4>Here's the closest stop on Route <%= @route.short_name %> towards <%= @direction == "0" ? @route.inbound : @route.outbound %>. We'll assume this is the one our passenger is starting on.</h4>
+<%= @starting_stop.name %>
+
+<br><br>
+<h4>Holy crap somehow we found the sequence:</h4>
+<ul>
+  <% @remaining_stops.each do |stops| %>
+    <%= link_to routes_path(id: @journey.id, stop: stops.stop_id) do %>
+      <li><strong><%= Stop.find(stops.stop_id).name %></strong> <%= Stop.find(stops.stop_id).desc %></li>
+    <% end %>
+  <% end %>
+</ul>

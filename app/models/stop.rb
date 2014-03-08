@@ -2,7 +2,7 @@ class Stop < ActiveRecord::Base
 
   has_many :stop_times
   has_many :trips, through: :stop_times
-  # has_many :routes, through: :trips
+  has_many :routes, through: :trips
 
   validates :gtfs_stop_id, :name, :lat, :lon, presence: true
   validates :lat, :lon, numericality: true
