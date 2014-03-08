@@ -14,7 +14,10 @@
 
   <body>
 
-    <%= yield %>
+    <div id="container">
+      <%= yield %>
+    </div>
+    
     <script>$(document).foundation().foundation('joyride', 'start');</script>
   </body>
 </html>

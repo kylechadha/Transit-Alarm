@@ -1,21 +1,102 @@
-<h3>List of Routes</h3>
+<script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
+<script>
+    jQuery(window).ready(function(){
+        jQuery("#btnInit").click(initiate_geolocation);
+    })
+ 
+    function initiate_geolocation() {
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(handle_geolocation_query, handle_errors);
+        }
+        else
+        {
+            yqlgeo.get('visitor', normalize_yql_response);
+        }
+    }
+ 
+    function handle_errors(error)
+    {
+        switch(error.code)
+        {
+            case error.PERMISSION_DENIED: alert("user did not share geolocation data");
+            break;
+ 
+            case error.POSITION_UNAVAILABLE: alert("could not detect current position");
+            break;
+ 
+            case error.TIMEOUT: alert("retrieving position timedout");
+            break;
+ 
+            default: alert("unknown error");
+            break;
+        }
+    }
+ 
+    function normalize_yql_response(response)
+    {
+        if (response.error)
+        {
+            var error = { code : 0 };
+            handle_error(error);
+            return;
+        }
+ 
+        var position = {
+            coords :
+            {
+                latitude: response.place.centroid.latitude,
+                longitude: response.place.centroid.longitude
+            },
+            address :
+            {
+                city: response.place.locality2.content,
+                region: response.place.admin1.content,
+                country: response.place.country.content
+            }
+        };
+ 
+        handle_geolocation_query(position);
+    }
+
+    var locationInfo;
+
+    function handle_geolocation_query(position){
+        locationInfo = position.coords.latitude + ", " + position.coords.longitude;
+        $('#locationDisplay').text(locationInfo);
+
+        $.get("/routes/", {lat: position.coords.latitude, lon: position.coords.longitude}, null, 'script')
+    }
+</script>
+
+<h1>Welcome to Transit Buzz</h1><br>
+
+<div>
+  <button id="btnInit" >Find my location</button><br>
+  <p>Oh hey, here's your location: <span id="locationDisplay"></span></p>
+</div>
+
+<div id="stops"></div>
+<div id="routes"></div>
+
+
+<!-- <h3>List of Stops</h3>
 <table class="table table-striped">
   <tr>
-    <th>Route ID</th>
-    <th>GTFS Route ID</th>
-    <th>Line</th>
-    <th>Route Name</th>
-    <th>Direction 0 (Inbound)</th>
-    <th>Direction 1 (Outbound)</th>
+    <th>Stop ID</th>
+    <th>GTFS Stop ID</th>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
   </tr>
-  <% @routes.each do |route| %>
+  <% @stops.each do |stop| %>
     <tr>
-      <td><%= route.id %></td>
-      <td><%= route.gtfs_route_id %></td>
-      <td><%= route.short_name %></td>
-      <td><%= route.long_name %></td>
-      <td><%= route.inbound %></td>
-      <td><%= route.outbound %></td>
+      <td><%= stop.id %></td>
+      <td><%= stop.gtfs_stop_id %></td>
+      <td><%= stop.name %></td>
+      <td><%= stop.lat %></td>
+      <td><%= stop.lon %></td>
     </tr>
   <% end %>
 </table>
+ -->

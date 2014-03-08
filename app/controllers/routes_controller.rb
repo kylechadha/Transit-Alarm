@@ -2,6 +2,15 @@ class RoutesController < ApplicationController
 
   def index
     @routes = Route.all
+
+    @stops = Stop.all
+    @nearby = Stop.by_distance(origin: [params[:lat], params[:lon]]).limit(16)
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.js
+    end
   end
 
   def show
@@ -37,6 +46,10 @@ class RoutesController < ApplicationController
     # Save the journey
     @journey = Journey.new(name: route, direction: headsign, start_lat: journey_params[:lat], start_lon: journey_params[:lon], trip_id: @trip.id)
     @journey.save
+  end
+
+  def list
+    @routes = Route.all
   end
 
   private
