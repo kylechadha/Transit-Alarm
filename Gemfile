@@ -24,9 +24,10 @@ gem 'geokit-rails'
 # Use Pry to debug
 gem 'pry'
 
-# Use SCSS for stylesheets and Foundation for styles
+# Use SCSS for stylesheets, Foundation for styles, and Font Awesome for icons
 gem 'sass-rails', '~> 4.0.0'
 gem 'foundation-rails'
+gem 'font-awesome-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
