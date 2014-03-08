@@ -9,18 +9,20 @@
 <% routes_array.uniq.each do |record| %>
   <div class="routes-tile row text-center">
     <div class="route-title small-2 columns">
-      <h2><%= record.short_name %></h2>
+      <h1><%= record.short_name %></h1>
       Route
     </div>
-    <%= link_to route_path(id: record, direction: 1, lat: params[:lat], lon: params[:lon]), {class: 'direction-box'} do %>
-      <div class="direction small-5 columns">
-        <%= record.outbound ? '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe + record.outbound : "" %>
-      </div>
-    <% end %>
-    <%= link_to route_path(id: record, direction: 0, lat: params[:lat], lon: params[:lon]) do %>
-      <div class="direction small-5 columns">
-        <%= record.inbound ? '<span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound : "" %>    
-      </div>
-    <% end %>
+      <%= link_to route_path(id: record, direction: 1, lat: params[:lat], lon: params[:lon]) do %>
+        <div class="direction small-5 columns">
+          <%= fa_icon "chevron-circle-left 2x" %><br>
+          <span><%= record.outbound ? '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe + record.outbound : "" %></span>
+        </div>
+      <% end %>
+      <%= link_to route_path(id: record, direction: 0, lat: params[:lat], lon: params[:lon]) do %>
+        <div class="direction small-5 columns">
+          <%= fa_icon "chevron-circle-right 2x" %><br>
+          <span><%= record.inbound ? '<span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound : "" %></span>  
+        </div>
+      <% end %>
   </div>
 <% end %>

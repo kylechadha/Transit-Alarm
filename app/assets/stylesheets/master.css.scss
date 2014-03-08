@@ -1,5 +1,8 @@
 #container {
   // margin: 30px 30px;
+  a {
+    color: white;
+  }
 }
 
 #routes-index {
@@ -25,23 +28,48 @@
     }
   }
   .routes-tile {
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 15px 20px;
+    margin-bottom: 1px;
     background-color: #3284be;
-    border: 8px solid #84B9DF;
-    a {
-      color: white;
+    border: 10px solid #84B9DF;
+    h1 {
+      font-size: 2.5em;
     }
     .route-title {
-      margin: 0;
+      margin: 0 8px;
       padding: 0;
-      h2 {
+      h1 {
         margin: 0;
+        margin-top: -10px;
         padding: 0;
       }
     }
-    .direction-box {
-      background-color: gray;
+    .direction {
+      margin: 0 -5px;
+      &:active {
+        color: #104F7C;
+      }
+      span {
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+
+#routes-show {
+  #header {
+    h1 {
+      font-size: 1.8em;
+      padding: 5px 12px;
+    }
+  }
+  .stops-tile {
+    padding: 15px;
+    border: 5px solid #84B9DF;
+    margin-bottom: 1px;
+    &:active {
+      border: 6px;
+      background-color: #104F7C;
     }
   }
 }
