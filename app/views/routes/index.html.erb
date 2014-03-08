@@ -1,102 +1,69 @@
+<% @page = "routes-index" %>
+
 <script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
 <script>
-    jQuery(window).ready(function(){
-        jQuery("#btnInit").click(initiate_geolocation);
-    })
+jQuery(window).ready(function(){
+  initiate_geolocation();
+})
  
-    function initiate_geolocation() {
-        if (navigator.geolocation)
-        {
-            navigator.geolocation.getCurrentPosition(handle_geolocation_query, handle_errors);
-        }
-        else
-        {
-            yqlgeo.get('visitor', normalize_yql_response);
-        }
-    }
- 
-    function handle_errors(error)
-    {
-        switch(error.code)
-        {
-            case error.PERMISSION_DENIED: alert("user did not share geolocation data");
-            break;
- 
-            case error.POSITION_UNAVAILABLE: alert("could not detect current position");
-            break;
- 
-            case error.TIMEOUT: alert("retrieving position timedout");
-            break;
- 
-            default: alert("unknown error");
-            break;
-        }
-    }
- 
-    function normalize_yql_response(response)
-    {
-        if (response.error)
-        {
-            var error = { code : 0 };
-            handle_error(error);
-            return;
-        }
- 
-        var position = {
-            coords :
-            {
-                latitude: response.place.centroid.latitude,
-                longitude: response.place.centroid.longitude
-            },
-            address :
-            {
-                city: response.place.locality2.content,
-                region: response.place.admin1.content,
-                country: response.place.country.content
-            }
-        };
- 
-        handle_geolocation_query(position);
-    }
+function initiate_geolocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(handle_geolocation_query, handle_errors);
+  }
+  else {
+    yqlgeo.get('visitor', normalize_yql_response);
+  }
+}
 
-    var locationInfo;
+function handle_errors(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED: alert("user did not share geolocation data");
+    break;
+    case error.POSITION_UNAVAILABLE: alert("could not detect current position");
+    break;
+    case error.TIMEOUT: alert("retrieving position timedout");
+    break;
+    default: alert("unknown error");
+    break;
+  }
+}
 
-    function handle_geolocation_query(position){
-        locationInfo = position.coords.latitude + ", " + position.coords.longitude;
-        $('#locationDisplay').text(locationInfo);
-
-        $.get("/routes/", {lat: position.coords.latitude, lon: position.coords.longitude}, null, 'script')
+function normalize_yql_response(response) {
+  if (response.error) {
+    var error = { code : 0 };
+    handle_error(error);
+    return;
+  }
+  var position = {
+    coords : {
+      latitude: response.place.centroid.latitude,
+      longitude: response.place.centroid.longitude
+    },
+    address : {
+      city: response.place.locality2.content,
+      region: response.place.admin1.content,
+      country: response.place.country.content
     }
+  };
+
+  handle_geolocation_query(position);
+}
+
+var locationInfo;
+
+function handle_geolocation_query(position){
+  locationInfo = position.coords.latitude + ", " + position.coords.longitude;
+  $('#locationDisplay').text(locationInfo);
+  $.get("/routes/", {lat: position.coords.latitude, lon: position.coords.longitude}, null, 'script')
+}
 </script>
 
-<h1>Welcome to Transit Buzz</h1><br>
-
-<div>
-  <button id="btnInit" >Find my location</button><br>
-  <p>Oh hey, here's your location: <span id="locationDisplay"></span></p>
+<div class="row">
+  <div class="small-12 medium-3 columns text-center" id="welcome">
+    <%= image_tag "bus-welcome.png", id: "bus", size: "80" %>
+    <h1>Please wait while we determine your location</h1>
+  </div>
 </div>
 
 <div id="stops"></div>
 <div id="routes"></div>
-
-
-<!-- <h3>List of Stops</h3>
-<table class="table table-striped">
-  <tr>
-    <th>Stop ID</th>
-    <th>GTFS Stop ID</th>
-    <th>Name</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-  </tr>
-  <% @stops.each do |stop| %>
-    <tr>
-      <td><%= stop.id %></td>
-      <td><%= stop.gtfs_stop_id %></td>
-      <td><%= stop.name %></td>
-      <td><%= stop.lat %></td>
-      <td><%= stop.lon %></td>
-    </tr>
-  <% end %>
-</table>
- -->

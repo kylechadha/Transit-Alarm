@@ -1,22 +1,26 @@
 <% routes_array = [] %>
 
-<h3>And here's the unique routes they correspond to:</h3>
-
 <% @nearby.each do |stop| %>
   <% stop.routes.distinct.each do |route| %>
     <% routes_array.push(route) %>
   <% end %>
 <% end %>
 
-<ul>
 <% routes_array.uniq.each do |record| %>
-  <li><%= "Route #{record.short_name}: #{record.long_name}" %>
-    <%= link_to route_path(id: record, direction: 1, lat: params[:lat], lon: params[:lon]) do %>
-      <%= record.outbound ? '<li style="list-style-type:circle; list-style-position: inside"><span class="glyphicon glyphicon-chevron-right"></span>'.html_safe + record.outbound + '</li>'.html_safe : "" %>
+  <div class="routes-tile row text-center">
+    <div class="route-title small-2 columns">
+      <h2><%= record.short_name %></h2>
+      Route
+    </div>
+    <%= link_to route_path(id: record, direction: 1, lat: params[:lat], lon: params[:lon]), {class: 'direction-box'} do %>
+      <div class="direction small-5 columns">
+        <%= record.outbound ? '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe + record.outbound : "" %>
+      </div>
     <% end %>
     <%= link_to route_path(id: record, direction: 0, lat: params[:lat], lon: params[:lon]) do %>
-      <%= record.inbound ? '<li style="list-style-type:circle; list-style-position: inside"><span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound + '</li>'.html_safe : "" %>    
+      <div class="direction small-5 columns">
+        <%= record.inbound ? '<span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound : "" %>    
+      </div>
     <% end %>
-  </li>
+  </div>
 <% end %>
-</ul>
