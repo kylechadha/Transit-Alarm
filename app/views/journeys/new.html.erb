@@ -15,7 +15,14 @@
       <%= f.select :alert_type, ["Alarm", "Notification", "Alarm & Notification"], html_option = { class: "form-control" } %>
     </div>
   </div>
+
+  <%= f.hidden_field :stop, value: params[:stop]  %>
+  <%= f.hidden_field :route, value: params[:route]  %>
+  <%= f.hidden_field :direction, value: params[:direction]  %>
+  <%= f.hidden_field :lat, value: params[:lat]  %>
+  <%= f.hidden_field :lon, value: params[:lon]  %>
+  <%= f.hidden_field :trip, value: params[:trip]  %>
   
-  <div><%= f.submit "Save" %></div>
+<div><%= f.submit "Save" %></div>
 
 <% end %>

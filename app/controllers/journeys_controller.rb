@@ -5,22 +5,35 @@ class JourneysController < ApplicationController
   end
 
   def create
-    @route = Route.find(params[:id])
-    @direction = params[:direction]
+
+    @route = Route.find(params[:journey][:route])
+    @direction = params[:journey][:direction]
 
     route = "Route #{@route.short_name}: #{@route.long_name}"
     headsign = @direction == "0" ? @route.inbound : @route.outbound
 
-    binding.pry
+    end_stop = Stop.find(params[:journey][:stop]).id
+    end_lat = Stop.find(params[:journey][:stop]).lat
+    end_lon = Stop.find(params[:journey][:stop]).lon
 
-    @journey = Journey.new(name: route, direction: headsign, start_lat: params[:lat], start_lon: params[:lon], trip_id: params[:trip])
-    @journey.save
+    @journey = Journey.new(name: route, direction: headsign, start_lat: params[:journey][:lat], start_lon: params[:journey][:lon], trip_id: params[:journey][:trip], stop_id: end_stop, end_lat: end_lat, end_lon: end_lon, alert_distance: params[:journey][:alert_distance], alert_type: params[:journey][:alert_type])
 
     if @journey.save
-      redirect_to action: 'index'
+      binding.pry
+      redirect_to journey_path(@journey)
     else
       render action: 'new'
     end
+  end
+
+  def show
+    @journey = Journey.find(params[:id])
+    @destination = Journey.destination(@journey.stop_id)
+  end
+
+  private
+  def journey_params
+    params.require(:journey).permit(:route, :direction, :alert_distance, :alert_type)
   end
 
 end
