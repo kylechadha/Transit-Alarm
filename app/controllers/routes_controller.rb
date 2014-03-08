@@ -40,6 +40,7 @@ class RoutesController < ApplicationController
     starting_seq = StopTime.where(trip_id: @trip.id, stop_id: @starting_stop.id).first
 
     @remaining_stops = StopTime.where(trip_id: @trip.id).where("sequence >= ?", starting_seq.sequence).order('sequence ASC')
+    remaining_stops = @remaining_stops.to_a
   end
 
   def list
