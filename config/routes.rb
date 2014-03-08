@@ -4,7 +4,8 @@ TransitAlarm::Application.routes.draw do
 
   get 'routes/list', :to => "routes#list"
 
-  resources :routes
-  resources :stops
+  resources :routes, only: [:index, :show]
+  resources :stops, only: [:index]
+  resources :journeys, only: [:new, :create, :show]
 
 end

@@ -16,8 +16,6 @@ class RoutesController < ApplicationController
   def show
     @route = Route.find(params[:id])
     @direction = params[:direction]
-    route = "Route #{@route.short_name}: #{@route.long_name}"
-    headsign = @direction == "0" ? @route.inbound : @route.outbound
 
     # Find all the trips that are on the selected route, and in the selected direction
     trips = @route.trips.where(direction_id: params[:direction])
@@ -42,22 +40,10 @@ class RoutesController < ApplicationController
     starting_seq = StopTime.where(trip_id: @trip.id, stop_id: @starting_stop.id).first
 
     @remaining_stops = StopTime.where(trip_id: @trip.id).where("sequence >= ?", starting_seq.sequence).order('sequence ASC')
-
-    # Save the journey
-    @journey = Journey.new(name: route, direction: headsign, start_lat: journey_params[:lat], start_lon: journey_params[:lon], trip_id: @trip.id)
-    @journey.save
   end
 
   def list
     @routes = Route.all
-  end
-
-  private
-  def journey_params
-    params.permit(:id, :direction, :lat, :lon, :alert_distance, :alert_type)
-    # Ideally you would have 
-    # params.require(:journey).permit(:id, :direction, :lat, :lon)
-    # And send all the params in journey ... but, we didn't
   end
 
 end
