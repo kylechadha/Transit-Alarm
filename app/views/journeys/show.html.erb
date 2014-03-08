@@ -1,7 +1,210 @@
+<style>
+#map-canvas {
+  height: 500px;
+  width: 500px;
+  margin: 0 auto;
+}
+</style>
+
+<script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDw1Ba3y7gTlafSaFsLW7RmkOpmogonpw&sensor=false">
+</script>
+
+<script>
+
+  var end_lat;
+  var end_lon;
+
+  var currLatLng;
+  var endLatLng;
+
+  var alert_distance;
+  alert_distance = "<%= @journey.alert_distance %>"
+  var alert_distance_integer;
+  alert_distance_integer = parseFloat(alert_distance);
+
+  $(function(){
+    $.get("<%= journey_url(@journey.id) %>.json", function(data){
+      $( $("type-number[0]").html(data.journey.end_lat));
+      end_lat = data.journey.end_lat
+    });
+  });
+
+
+  $(function(){
+    $.get("<%= journey_url(@journey.id) %>.json", function(data){
+      $( $("type-number[1]").html(data.journey.end_lon));
+      end_lon = data.journey.end_lon
+    });
+  });
+
+  $(function(){
+    jQuery("#btnInit").click(initiate_geolocation);
+
+
+
+    function initiate_geolocation() {
+
+      var watchPositionId = 0;
+      var show_location;
+
+      if (navigator.geolocation)
+      {
+        navigator.geolocation.clearWatch(watchPositionId);
+        watchPositionId = navigator.geolocation.watchPosition(handle_geolocation_query, handle_errors);
+      }
+      else
+      {
+        yqlgeo.get('visitor', normalize_yql_response);
+      }
+    }
+
+    function handle_errors(error)
+    {
+      switch(error.code)
+      {
+        case error.PERMISSION_DENIED: alert("user did not share geolocation data");
+        break;
+
+        case error.POSITION_UNAVAILABLE: alert("could not detect current position");
+        break;
+
+        case error.TIMEOUT: alert("retrieving position timedout");
+        break;
+
+        default: alert("unknown error");
+        break;
+      }
+    }
+
+    function normalize_yql_response(response)
+    {
+      if (response.error)
+      {
+        var error = { code : 0 };
+        handle_error(error);
+        return;
+      }
+
+      var position = {
+        coords :
+        {
+          latitude: response.place.centroid.latitude,
+          longitude: response.place.centroid.longitude
+        },
+        address :
+        {
+          city: response.place.locality2.content,
+          region: response.place.admin1.content,
+          country: response.place.country.content
+        }
+      };
+
+      handle_geolocation_query(position);
+
+    }
+
+    var locationInfo;
+
+
+    function handle_geolocation_query(position){
+
+      var timestampDate = new Date(position.timestamp);
+
+      locationInfo = position.coords.latitude + ", " + position.coords.longitude + '  --> Last Updated: ' + timestampDate.toLocaleString();
+      $('#locationDisplay').text(locationInfo);
+      
+          var earthRadius = 3961.3; // Radius of the earth in miles
+          var dLatitude = convertToRadian(end_lat - position.coords.latitude);
+          var dLongitude = convertToRadian(end_lon - position.coords.longitude);
+          var a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(convertToRadian(position.coords.latitude)) * Math.cos(convertToRadian(end_lat)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
+          var greatCircleDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          var distance = earthRadius * greatCircleDistance;
+
+          // Check distance against alert_distance
+          if (distance < alert_distance_integer ) {
+            new Audio("/audios/buzz.mp3").play();
+            alert("It's time to start packing up. You will be at your stop shortly.");
+
+          } else {
+            console.log("Don't Ping Yet")
+
+          };
+
+          console.log('alert_distance is less than miles away')
+          console.log(distance + 'miles away');
+
+      // Google Maps
+
+      var currLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+      var endLatLng = new google.maps.LatLng(end_lat, end_lon);
+
+      var mapOptions = {
+        center: currLatLng,
+        zoom: 14
+      };
+
+      var marker_end;
+      var infowindow_end;
+
+      var marker_current;
+      var infowindow_current;
+
+      var map = new google.maps.Map(document.getElementById("map-canvas"),
+        mapOptions);
+
+      var marker_current = new google.maps.Marker({
+        position: currLatLng, 
+        map: map,
+        title: "My Current Location" });
+
+      var infowindow_current = new google.maps.InfoWindow({
+        content: '<div id="content">'+
+        '<p id="firstHeading" class="firstHeading">Current Location</p>'+'</div>'
+      });
+
+      var marker_end = new google.maps.Marker({
+        position: endLatLng, 
+        map: map,
+        title: "My Stop" });
+
+      var infowindow_end = new google.maps.InfoWindow({
+        content: '<div id="content">'+
+        '<p id="firstHeading" class="firstHeading">End Stop Location</p>'+'</div>'
+      });
+
+      google.maps.event.addListener(marker_end, 'click', function() {
+        infowindow_end.open(map,marker_end);
+      });
+
+      google.maps.event.addListener(marker_current, 'click', function() {
+        infowindow_current.open(map,marker_current);
+      });
+
+    }
+    function convertToRadian(numericDegree) {
+      return numericDegree * Math.PI / 180;
+    }
+
+    google.maps.event.addDomListener(window, 'page:change', initiate_geolocation);  
+
+  })
+
+</script>
+
 <h1>I love maps!!</h1>
-
-Oh also, here's the journey you're on. We'll use these coords to plug into maps and our proximity calculations! <br>
-<h3><%= @journey.name %></h3>
-<h4>Heading <%= @journey.direction %></h4>
-
-<h3>With the final destination of <strong><%= @destination.name %></strong></h3>
+Current Journey id: <%= @journey.id %>
+<br>
+Current Journey end_lat: <%= @journey.end_lat %>
+<br>
+Current Journey end_lon: <%= @journey.end_lon %>
+<br>
+Current Journey alert_distance: <%= @journey.alert_distance %>
+<div>
+  <button id="btnInit" >Let's Get our Tracking On!</button><br>
+  <br>
+  <p>Oh hey there, again! Here's your current location: <span id="locationDisplay"></span></p>
+</div>
+<br>
+<div id="map-canvas"></div>

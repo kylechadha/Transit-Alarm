@@ -19,7 +19,6 @@ class JourneysController < ApplicationController
     @journey = Journey.new(name: route, direction: headsign, start_lat: params[:journey][:lat], start_lon: params[:journey][:lon], trip_id: params[:journey][:trip], stop_id: end_stop, end_lat: end_lat, end_lon: end_lon, alert_distance: params[:journey][:alert_distance], alert_type: params[:journey][:alert_type])
 
     if @journey.save
-      binding.pry
       redirect_to journey_path(@journey)
     else
       render action: 'new'
@@ -28,7 +27,6 @@ class JourneysController < ApplicationController
 
   def show
     @journey = Journey.find(params[:id])
-    @destination = Journey.destination(@journey.stop_id)
   end
 
   private
