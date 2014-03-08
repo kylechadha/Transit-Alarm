@@ -9,10 +9,6 @@
 <script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDw1Ba3y7gTlafSaFsLW7RmkOpmogonpw&sensor=true">
 </script>
-
-<!-- For Directions API -->
-<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/directions/json?origin=#{currLatLng}&destination=#{endLatLng}&sensor=false&key=AIzaSyB737kyJSPNiR_PD6VZuBV24KkdshiGB5Y"></script>
- -->
 <script>
 
   var end_lat;
@@ -137,7 +133,7 @@
           console.log('alert_distance is less than miles away')
           console.log(distance + 'miles away');
 
-      // Google Maps
+      // Google Maps API
 
       var currLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -150,41 +146,12 @@
 
       var map = new google.maps.Map(document.getElementById("map-canvas"),
       mapOptions);   
-      
-      var transitLayer = new google.maps.TransitLayer();
-      transitLayer.setMap(map);
-
+ 
+      // Google Maps API Traffic Layer
       var trafficLayer = new google.maps.TrafficLayer();
       trafficLayer.setMap(map);
 
-      // Commented out the original way we marked the map
-      // var marker_end;
-      // var infowindow_end;
-
-      // var marker_current;
-      // var infowindow_current;
-
-      // var marker_current = new google.maps.Marker({
-      //   position: currLatLng, 
-      //   map: map,
-      //   title: "My Current Location" });
-
-      // var infowindow_current = new google.maps.InfoWindow({
-      //   content: '<div id="content">'+
-      //   '<p id="firstHeading" class="firstHeading">Current Location</p>'+'</div>'
-      // });
-
-      // var marker_end = new google.maps.Marker({
-      //   position: endLatLng, 
-      //   map: map,
-      //   title: "My Stop" });
-
-      // var infowindow_end = new google.maps.InfoWindow({
-      //   content: '<div id="content">'+
-      //   '<p id="firstHeading" class="firstHeading">End Stop Location</p>'+'</div>'
-      // });
-
-      //For Directions API
+      // Directions API
       var directionsDisplay;
       directionsDisplay = new google.maps.DirectionsRenderer();
 
@@ -202,13 +169,6 @@
         }
       });
 
-      // google.maps.event.addListener(marker_end, 'click', function() {
-      //   infowindow_end.open(map,marker_end);
-      // });
-
-      // google.maps.event.addListener(marker_current, 'click', function() {
-      //   infowindow_current.open(map,marker_current);
-      // });
     }
 
     function convertToRadian(numericDegree) {
@@ -231,8 +191,14 @@ Current Journey end_lon: <%= @journey.end_lon %>
 Current Journey alert_distance: <%= @journey.alert_distance %>
 <div>
   <button id="btnInit" >Let's Get our Tracking On!</button><br>
-  <br>
-  <p>Oh hey there, again! Here's your current location: <span id="locationDisplay"></span></p>
+
 </div>
+
+<p>Here's your current location: <span id="locationDisplay"></span></p>
+You are Heading <%= @journey.direction %>
 <br>
+A. Your Current Location
+<br>
+B. Your End Stop
+
 <div id="map-canvas"></div>
