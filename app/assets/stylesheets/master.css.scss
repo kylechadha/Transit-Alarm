@@ -125,3 +125,27 @@ body {
     margin-top: 10px;
   }
 }
+
+#journeys-show {
+  #map-canvas {
+    height: 350px;
+    width: 100%;
+    margin: 0 auto;
+    // margin-top: 30px;
+    // border: 10px solid white;
+  }
+  #firstHeading {
+    font-size: 8pt;
+  }
+  #destination {
+    padding: 20px;
+    h1 {
+      font-size: 1.5em;
+      padding: 0;
+      margin: 0;
+    }
+    h2 {
+      font-size: 1em;
+    }
+  }
+}

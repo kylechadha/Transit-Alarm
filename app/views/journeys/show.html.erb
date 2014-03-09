@@ -1,15 +1,7 @@
 <% @page = "journeys-show" %>
 
 <style>
-#map-canvas {
-  height: 500px;
-  width: 500px;
-  margin: 0 auto;
-}
 
-#firstHeading {
-  font-size: 8pt;
-}
 
 </style>
 
@@ -61,8 +53,6 @@
   });
 
   $(function(){
-    jQuery("#btnInit").click(initiate_geolocation);
-
 
     function initiate_geolocation() {
 
@@ -187,8 +177,8 @@
       });
 
       // Google Maps API Traffic Layer
-      var trafficLayer = new google.maps.TrafficLayer();
-      trafficLayer.setMap(map);
+      // var trafficLayer = new google.maps.TrafficLayer();
+      // trafficLayer.setMap(map);
 
       // Directions API
       var directionsDisplay;
@@ -224,24 +214,11 @@
 
 </script>
 
-<h1>I love maps!!</h1>
-Current Journey id: <%= @journey.id %>
-<br>
-Current Journey end_lat: <%= @journey.end_lat %>
-<br>
-Current Journey end_lon: <%= @journey.end_lon %>
-<br>
-Current Journey alert_distance: <%= @journey.alert_distance %>
-<div>
-  <button id="btnInit" >Let's Get our Tracking On!</button><br>
-
-</div>
-
-<p>Here's your current location: <span id="locationDisplay"></span></p>
-You are Heading <%= @journey.direction %>
-<br>
-A. Your Starting Location
-<br>
-B. Your End Stop
-
 <div id="map-canvas"></div>
+
+<div id="destination" class="text-center">
+  <h1><%= @journey.name %></h1>
+  <h2>Current Stop: </h2>
+
+  Destination: <%= @journey.stop.name %>
+</div>
