@@ -1,10 +1,5 @@
 <% @page = "journeys-show" %>
 
-<style>
-
-
-</style>
-
 <script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDw1Ba3y7gTlafSaFsLW7RmkOpmogonpw&sensor=true">
 </script>
@@ -19,112 +14,80 @@
   var currLatLng;
   var endLatLng;
 
-  var alert_distance;
-  alert_distance = "<%= @journey.alert_distance %>"
-  var alert_distance_integer;
-  alert_distance_integer = parseFloat(alert_distance);
+  var alert_distance = "<%= @journey.alert_distance %>";
+  var alert_distance_integer = parseFloat(alert_distance);
 
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[0]").html(data.journey.start_lat));
       start_lat = data.journey.start_lat
     });
   });
-
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[1]").html(data.journey.start_lon));
       start_lon = data.journey.start_lon
     });
   });
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[2]").html(data.journey.end_lat));
       end_lat = data.journey.end_lat
     });
   });
-
-
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[3]").html(data.journey.end_lon));
       end_lon = data.journey.end_lon
     });
   });
 
   $(function(){
-
     function initiate_geolocation() {
-
       var watchPositionId = 0;
       var show_location;
-
-      if (navigator.geolocation)
-      {
+      if (navigator.geolocation) {
         navigator.geolocation.clearWatch(watchPositionId);
         watchPositionId = navigator.geolocation.watchPosition(handle_geolocation_query, handle_errors);
+
       }
-      else
-      {
+      else {
         yqlgeo.get('visitor', normalize_yql_response);
       }
     }
 
-    function handle_errors(error)
-    {
-      switch(error.code)
-      {
+    function handle_errors(error) {
+      switch(error.code) {
         case error.PERMISSION_DENIED: alert("user did not share geolocation data");
         break;
-
         case error.POSITION_UNAVAILABLE: alert("could not detect current position");
         break;
-
         case error.TIMEOUT: alert("retrieving position timedout");
         break;
-
-        default: alert("unknown error");
+        default: alert("We have no idea what happened. D'oh!");
         break;
       }
     }
 
-    function normalize_yql_response(response)
-    {
-      if (response.error)
-      {
+    function normalize_yql_response(response) {
+      if (response.error) {
         var error = { code : 0 };
         handle_error(error);
         return;
       }
-
       var position = {
-        coords :
-        {
+        coords : {
           latitude: response.place.centroid.latitude,
           longitude: response.place.centroid.longitude
         },
-        address :
-        {
+        address :  {
           city: response.place.locality2.content,
           region: response.place.admin1.content,
           country: response.place.country.content
         }
       };
-
       handle_geolocation_query(position);
-
     }
-
-    var locationInfo;
-
 
     function handle_geolocation_query(position){
 
       var timestampDate = new Date(position.timestamp);
-
-      locationInfo = position.coords.latitude + ", " + position.coords.longitude + '  --> Last Updated: ' + timestampDate.toLocaleString();
-      $('#locationDisplay').text(locationInfo);
-      
       var earthRadius = 3961.3; // Radius of the earth in miles
       var dLatitude = convertToRadian(end_lat - position.coords.latitude);
       var dLongitude = convertToRadian(end_lon - position.coords.longitude);
@@ -132,23 +95,21 @@
       var greatCircleDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       var distance = earthRadius * greatCircleDistance;
 
+      // THIS IS WHERE WE WILL UPDATE TO MAKE ALERT v NOTIFICATION DYNAMIC
       // Check distance against alert_distance
-      if (distance < alert_distance_integer ) {
+      if (distance < alert_distance_integer) {
         new Audio("/audios/buzz.mp3").play();
         alert("It's time to start packing up. You will be at your stop shortly.");
-
       } else {
         console.log("Don't Ping Yet")
-
       };
 
-      console.log('alert_distance is less than miles away')
-      console.log(distance + 'miles away');
+      console.log('alert_distance is less than ' + alert_distance_integer + ' miles away')
+      console.log(distance + ' miles away');
 
       // Google Maps API
 
       var currLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
       var startLatLng = new google.maps.LatLng(start_lat, start_lon);
       var endLatLng = new google.maps.LatLng(end_lat, end_lon);
 
@@ -212,9 +173,7 @@
     }
 
     google.maps.event.addDomListener(window, 'page:change', initiate_geolocation);  
-
   })
-
 </script>
 
 <div id="map-canvas"></div>

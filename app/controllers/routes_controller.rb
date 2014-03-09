@@ -4,7 +4,7 @@ class RoutesController < ApplicationController
     @routes = Route.all
 
     @stops = Stop.all
-    @nearby = Stop.by_distance(origin: [params[:lat], params[:lon]]).limit(16)
+    @nearby = Stop.by_distance(origin: [params[:lat], params[:lon]]).limit(200)
 
     respond_to do |format|
       format.html
