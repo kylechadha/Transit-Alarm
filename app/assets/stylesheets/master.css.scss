@@ -134,8 +134,10 @@ body {
     // margin-top: 30px;
     // border: 10px solid white;
   }
-  #firstHeading {
-    font-size: 8pt;
+  #firstheading {
+    font-size: 1em;
+    color: black;
+    font-weight: 300;
   }
   #destination {
     padding: 20px;
@@ -145,6 +147,9 @@ body {
       margin: 0;
     }
     h2 {
+      font-size: 1.2em;
+    }
+    h3 {
       font-size: 1em;
     }
   }

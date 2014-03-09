@@ -1,5 +1,13 @@
 class JourneysController < ApplicationController
 
+  def index
+    @nearby = Stop.by_distance(origin: [params[:lat], params[:lon]]).joins(:trips).where(trips: { id: params[:trip] }).limit(1)
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def new
     @journey = Journey.new
   end
@@ -27,6 +35,12 @@ class JourneysController < ApplicationController
 
   def show
     @journey = Journey.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.js
+    end
   end
 
   private

@@ -125,25 +125,25 @@
       locationInfo = position.coords.latitude + ", " + position.coords.longitude + '  --> Last Updated: ' + timestampDate.toLocaleString();
       $('#locationDisplay').text(locationInfo);
       
-          var earthRadius = 3961.3; // Radius of the earth in miles
-          var dLatitude = convertToRadian(end_lat - position.coords.latitude);
-          var dLongitude = convertToRadian(end_lon - position.coords.longitude);
-          var a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(convertToRadian(position.coords.latitude)) * Math.cos(convertToRadian(end_lat)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
-          var greatCircleDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-          var distance = earthRadius * greatCircleDistance;
+      var earthRadius = 3961.3; // Radius of the earth in miles
+      var dLatitude = convertToRadian(end_lat - position.coords.latitude);
+      var dLongitude = convertToRadian(end_lon - position.coords.longitude);
+      var a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(convertToRadian(position.coords.latitude)) * Math.cos(convertToRadian(end_lat)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
+      var greatCircleDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var distance = earthRadius * greatCircleDistance;
 
-          // Check distance against alert_distance
-          if (distance < alert_distance_integer ) {
-            new Audio("/audios/buzz.mp3").play();
-            alert("It's time to start packing up. You will be at your stop shortly.");
+      // Check distance against alert_distance
+      if (distance < alert_distance_integer ) {
+        new Audio("/audios/buzz.mp3").play();
+        alert("It's time to start packing up. You will be at your stop shortly.");
 
-          } else {
-            console.log("Don't Ping Yet")
+      } else {
+        console.log("Don't Ping Yet")
 
-          };
+      };
 
-          console.log('alert_distance is less than miles away')
-          console.log(distance + 'miles away');
+      console.log('alert_distance is less than miles away')
+      console.log(distance + 'miles away');
 
       // Google Maps API
 
@@ -169,11 +169,11 @@
         position: currLatLng, 
         map: map,
         // icon: image,
-        title: "My Current Location" });
+        title: "Current Location" });
 
       var infowindow = new google.maps.InfoWindow({
         content: '<div id="content">'+
-        '<p id="firstHeading" class="firstHeading">Current Location</p>'+'</div>'
+        '<p id="firstheading">Current Location</p>'+'</div>'
       });
 
       // Google Maps API Traffic Layer
@@ -202,6 +202,9 @@
       google.maps.event.addListener(marker, 'click', function() {
         infowindow.open(map,marker);
       });
+
+      console.log(position.coords.latitude)
+      $.get("/journeys/", {lat: position.coords.latitude, lon: position.coords.longitude, trip: <%= @journey.trip.id %>}, null, 'script')
     }
 
     function convertToRadian(numericDegree) {
@@ -218,7 +221,7 @@
 
 <div id="destination" class="text-center">
   <h1><%= @journey.name %></h1>
-  <h2>Current Stop: </h2>
+  <h3 id="position">Closest Stop: </h3>
 
-  Destination: <%= @journey.stop.name %>
+  <h2>Destination: <%= @journey.stop.desc %></h2>
 </div>
