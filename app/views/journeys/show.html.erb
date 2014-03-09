@@ -4,6 +4,11 @@
   width: 500px;
   margin: 0 auto;
 }
+
+#firstHeading {
+  font-size: 8pt;
+}
+
 </style>
 
 <script src="http://isithackday.com/hacks/geo/yql-geo-library/yqlgeo.js"></script>
@@ -13,7 +18,10 @@
 
   var end_lat;
   var end_lon;
+  var start_lat;
+  var start_lon;
 
+  var startLatLng
   var currLatLng;
   var endLatLng;
 
@@ -24,7 +32,20 @@
 
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[0]").html(data.journey.end_lat));
+      $( $("type-number[0]").html(data.journey.start_lat));
+      start_lat = data.journey.start_lat
+    });
+  });
+
+  $(function(){
+    $.get("<%= journey_url(@journey.id) %>.json", function(data){
+      $( $("type-number[1]").html(data.journey.start_lon));
+      start_lon = data.journey.start_lon
+    });
+  });
+  $(function(){
+    $.get("<%= journey_url(@journey.id) %>.json", function(data){
+      $( $("type-number[2]").html(data.journey.end_lat));
       end_lat = data.journey.end_lat
     });
   });
@@ -32,14 +53,13 @@
 
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
-      $( $("type-number[1]").html(data.journey.end_lon));
+      $( $("type-number[3]").html(data.journey.end_lon));
       end_lon = data.journey.end_lon
     });
   });
 
   $(function(){
     jQuery("#btnInit").click(initiate_geolocation);
-
 
 
     function initiate_geolocation() {
@@ -137,6 +157,7 @@
 
       var currLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
+      var startLatLng = new google.maps.LatLng(start_lat, start_lon);
       var endLatLng = new google.maps.LatLng(end_lat, end_lon);
 
       var mapOptions = {
@@ -147,6 +168,22 @@
       var map = new google.maps.Map(document.getElementById("map-canvas"),
       mapOptions);   
  
+ // Kyle - add image url here
+      // var image = '';
+        
+      var marker;
+      var infowindow;
+      marker = new google.maps.Marker({
+        position: currLatLng, 
+        map: map,
+        // icon: image,
+        title: "My Current Location" });
+
+      var infowindow = new google.maps.InfoWindow({
+        content: '<div id="content">'+
+        '<p id="firstHeading" class="firstHeading">Current Location</p>'+'</div>'
+      });
+
       // Google Maps API Traffic Layer
       var trafficLayer = new google.maps.TrafficLayer();
       trafficLayer.setMap(map);
@@ -168,7 +205,11 @@
         directionsDisplay.setDirections(response);
         }
       });
-
+      
+      // You can view the infoWindow when you click on the moving icon
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+      });
     }
 
     function convertToRadian(numericDegree) {
@@ -197,7 +238,7 @@ Current Journey alert_distance: <%= @journey.alert_distance %>
 <p>Here's your current location: <span id="locationDisplay"></span></p>
 You are Heading <%= @journey.direction %>
 <br>
-A. Your Current Location
+A. Your Starting Location
 <br>
 B. Your End Stop
 
