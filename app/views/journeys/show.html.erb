@@ -13,9 +13,11 @@
   var startLatLng
   var currLatLng;
   var endLatLng;
+  var watchProcess = null;
 
   var alert_distance = "<%= @journey.alert_distance %>";
   var alert_distance_integer = parseFloat(alert_distance);
+  var alert_type = "<%= @journey.alert_type %>";
 
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
@@ -40,15 +42,16 @@
 
   $(function(){
     function initiate_geolocation() {
-      var watchPositionId = 0;
-      var show_location;
-      if (navigator.geolocation) {
-        navigator.geolocation.clearWatch(watchPositionId);
-        watchPositionId = navigator.geolocation.watchPosition(handle_geolocation_query, handle_errors);
-
-      }
-      else {
-        yqlgeo.get('visitor', normalize_yql_response);
+      if (watchProcess == null) {      
+        var watchPositionId = 0;
+        var show_location;
+        if (navigator.geolocation) {
+          navigator.geolocation.clearWatch(watchPositionId);
+          watchProcess = navigator.geolocation.watchPosition(handle_geolocation_query, handle_errors);
+        }
+        else {
+          yqlgeo.get('visitor', normalize_yql_response);
+        }
       }
     }
 
@@ -85,6 +88,13 @@
       handle_geolocation_query(position);
     }
 
+    function stop_watchlocation() {
+      if (watchProcess != null) {
+        navigator.geolocation.clearWatch(watchProcess);
+        watchProcess = null;
+      }
+    }
+
     function handle_geolocation_query(position){
 
       var timestampDate = new Date(position.timestamp);
@@ -98,14 +108,25 @@
       // THIS IS WHERE WE WILL UPDATE TO MAKE ALERT v NOTIFICATION DYNAMIC
       // Check distance against alert_distance
       if (distance < alert_distance_integer) {
-        new Audio("/audios/buzz.mp3").play();
-        alert("It's time to start packing up. You will be at your stop shortly.");
+        if (alert_type == "Alarm &amp; Notification") {
+          // new Audio("/audios/alarm.mp3").play();
+          new Audio("/audios/buzz.mp3").play();
+          alert("It's time to start packing up. You will be at your stop shortly!");          
+          } else if (alert_type == "Alarm") {
+            // new Audio("/audios/alarm.mp3").play();
+            new Audio("/audios/buzz.mp3").play();
+          } else if (alert_type == "Notification") {
+            alert("It's time to start packing up. You will be at your stop shortly!");          
+          } else {
+            console.log("Looks like we messed something up!")
+          };
+        stop_watchlocation();
       } else {
         console.log("Don't Ping Yet")
       };
 
-      console.log('alert_distance is less than ' + alert_distance_integer + ' miles away')
-      console.log(distance + ' miles away');
+      console.log('Alert distance is ' + alert_distance_integer + ' miles.')
+      console.log("And we're currently " + distance + ' miles away.');
 
       // Google Maps API
 
