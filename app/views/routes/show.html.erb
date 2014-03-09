@@ -3,6 +3,7 @@
 <div id="header" class="text-center">
   <h1>Select your destination</h1>
 </div>
+
 <% @remaining_stops.each do |stops| %>
   <%= link_to new_journey_path(stop: stops.stop_id, route: @route, direction: @direction, lat: params[:lat], lon: params[:lon], trip: @trip) do %>
     <div class="stops-tile"><%= fa_icon "check-circle" %> &nbsp;&nbsp;<%= Stop.find(stops.stop_id).desc %></div>

@@ -53,9 +53,6 @@ body {
     margin-bottom: 1px;
     background-color: #3284be;
     border: 10px solid #84B9DF;
-    &:active {
-      border: 11px solid #84B9DF;
-    }
     h1 {
       font-size: 2.5em;
     }
@@ -84,7 +81,8 @@ body {
   #header {
     h1 {
       font-size: 1.8em;
-      padding: 5px 12px;
+      padding: 6px 12px;
+      padding-top: 8px;
     }
   }
   .stops-tile {
@@ -99,10 +97,11 @@ body {
 }
 
 #journeys-new {
-  h1 {
+  #header {
     font-size: 1.8em;
     padding: 5px 12px;
     margin: 25px 0;
+    // letter-spacing: 1px;
   }
   label {
     color: white;
@@ -127,6 +126,7 @@ body {
     margin-top: 10px;
     &:active {
       background-color: #104F7C;
+      color: white;
     }
   }
   .submit {
