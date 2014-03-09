@@ -43,10 +43,11 @@
   $(function(){
     function initiate_geolocation() {
       if (watchProcess == null) {      
-        var watchPositionId = 0;
+        // Replaced watchPositionId with active watchProcess
+        // var watchPositionId = 0;
         var show_location;
         if (navigator.geolocation) {
-          navigator.geolocation.clearWatch(watchPositionId);
+          // navigator.geolocation.clearWatch(watchPositionId);
           watchProcess = navigator.geolocation.watchPosition(handle_geolocation_query, handle_errors);
         }
         else {
@@ -105,16 +106,15 @@
       var greatCircleDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       var distance = earthRadius * greatCircleDistance;
 
-      // THIS IS WHERE WE WILL UPDATE TO MAKE ALERT v NOTIFICATION DYNAMIC
       // Check distance against alert_distance
       if (distance < alert_distance_integer) {
         if (alert_type == "Alarm &amp; Notification") {
-          // new Audio("/audios/alarm.mp3").play();
-          new Audio("/audios/buzz.mp3").play();
+          new Audio("/audios/alarm.mp3").play();
+          // new Audio("/audios/buzz.mp3").play();
           alert("It's time to start packing up. You will be at your stop shortly!");          
           } else if (alert_type == "Alarm") {
-            // new Audio("/audios/alarm.mp3").play();
-            new Audio("/audios/buzz.mp3").play();
+            new Audio("/audios/alarm.mp3").play();
+            // new Audio("/audios/buzz.mp3").play();
           } else if (alert_type == "Notification") {
             alert("It's time to start packing up. You will be at your stop shortly!");          
           } else {
@@ -143,20 +143,22 @@
       mapOptions);   
  
  // Kyle - add image url here
-      // var image = '';
+      var image = '<%= asset_path "bus-marker.png" %>';
         
       var marker;
       var infowindow;
       marker = new google.maps.Marker({
         position: currLatLng, 
         map: map,
-        // icon: image,
-        title: "Current Location" });
-
-      var infowindow = new google.maps.InfoWindow({
-        content: '<div id="content">'+
-        '<p id="firstheading">Current Location</p>'+'</div>'
+        icon: image,
+        title: "Current Location"
       });
+
+      // Can populate info window if you want here.
+      // var infowindow = new google.maps.InfoWindow({
+      //   content: '<div id="content">'+
+      //   '<p id="firstheading">Current Location</p>'+'</div>'
+      // });
 
       // Google Maps API Traffic Layer
       // var trafficLayer = new google.maps.TrafficLayer();

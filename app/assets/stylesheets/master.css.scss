@@ -16,12 +16,17 @@ body {
   }
 }
 
+#bus-nav {
+  margin-top: -4px;
+  margin-right: 1px;
+}
+
 #routes-index {
   #welcome {
     position: absolute;
     padding: 0 30px;
     left: 50%;
-    top: 40%;
+    top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
@@ -36,6 +41,11 @@ body {
       // -moz-filter: invert(100%);
       // -webkit-filter: invert(100%);
       margin: 20px;
+    }
+    #smiles {
+      position: absolute;
+      left: 48%;
+      top: 16%;
     }
   }
   .routes-tile {
