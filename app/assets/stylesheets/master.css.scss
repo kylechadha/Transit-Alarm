@@ -32,6 +32,9 @@
     margin-bottom: 1px;
     background-color: #3284be;
     border: 10px solid #84B9DF;
+    &:active {
+      border: 11px solid #84B9DF;
+    }
     h1 {
       font-size: 2.5em;
     }
@@ -68,8 +71,38 @@
     border: 5px solid #84B9DF;
     margin-bottom: 1px;
     &:active {
-      border: 6px;
+      border: 6px solid #84B9DF;
       background-color: #104F7C;
     }
+  }
+}
+
+#journeys-new {
+  h1 {
+    font-size: 1.8em;
+    padding: 5px 12px;
+  }
+  label {
+    color: white;
+    font-size: 1em;
+  }
+  input {
+    margin: 0;
+    border: none;
+    padding: 0;
+    -moz-appearance: none;
+  }
+  input[type=submit] {
+    -moz-appearance:none;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    font-size: 1em;
+    font-family: 'Lato';
+  }
+  .submit {
+    text-align: center;
+    padding: 0;
+    margin-top: 10px;
   }
 }
