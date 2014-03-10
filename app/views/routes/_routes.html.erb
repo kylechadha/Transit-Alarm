@@ -20,7 +20,7 @@
         </div>
       <% end %>
       <%= link_to route_path(id: record, direction: 0, lat: params[:lat], lon: params[:lon]) do %>
-        <div class="direction small-5 columns">
+        <div class="direction direction-two small-5 columns">
           <%= fa_icon "chevron-circle-right 2x" %><br>
           <span><%= record.inbound ? '<span class="glyphicon glyphicon-chevron-left"></span>'.html_safe + record.inbound : "" %></span>  
         </div>

@@ -35,11 +35,6 @@ body {
       font-size: 1.7em;
     }
     #bus {
-      // filter: invert(100%);
-      // -o-filter: invert(100%);
-      // -ms-filter: invert(100%);
-      // -moz-filter: invert(100%);
-      // -webkit-filter: invert(100%);
       margin: 20px;
     }
     #smiles {
@@ -57,7 +52,8 @@ body {
       font-size: 2.5em;
     }
     .route-title {
-      margin: 0 8px;
+      margin-left: 12px;
+      margin-right: 20px;
       padding: 0;
       h1 {
         margin: 0;
@@ -66,7 +62,8 @@ body {
       }
     }
     .direction {
-      margin: 0 -5px;
+      margin-left: -6px;
+      margin-right: -10px;
       &:active {
         color: #104F7C;
       }
@@ -138,7 +135,7 @@ body {
 
 #journeys-show {
   #map-canvas {
-    height: 350px;
+    height: 300px;
     width: 100%;
     margin: 0 auto;
     // margin-top: 30px;
@@ -149,19 +146,36 @@ body {
     color: black;
     font-weight: 300;
   }
-  #destination {
-    padding: 20px;
+  #closest-stop {
+    padding: 0 10px;
     h1 {
-      font-size: 1.5em;
+      font-size: 1.3em;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    h3 {
+      font-size: 1.6em;
+      margin: 0;
+    }
+  }
+  #footer {
+    position: absolute;
+    background-color: #555;
+    width: 100%;    
+    bottom: 0;
+    h2 {
+      font-size: 1em;
       padding: 0;
       margin: 0;
     }
-    h2 {
-      font-size: 1.2em;
-    }
-    h3 {
-      font-size: 1em;
-    }
+  }
+  #destination {
+    padding: 10px 0;
+  }
+  #route {
+    background-color: #333;
+    padding: 10px 0;
+    margin: 0;
   }
 }
 

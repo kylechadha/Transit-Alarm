@@ -204,9 +204,15 @@
 
 <div id="map-canvas"></div>
 
-<div id="destination" class="text-center">
-  <h1><%= @journey.name %></h1>
-  <h3 id="position">Closest Stop: </h3>
-
-  <h2>Destination: <%= @journey.stop.desc %></h2>
+<div id="closest-stop" class="text-center">
+  <h1>Closest Stop</h1>
+  <h3 id="position"></h3>
+</div>
+<div id="footer">
+  <div id="destination" class="text-center">
+    <h2>Destination: <%= @journey.stop.desc %></h2>
+  </div>
+  <div id="route" class="text-center">
+    <h2><%= @journey.name %></h2>
+  </div>
 </div>
