@@ -164,3 +164,74 @@ body {
     }
   }
 }
+
+// @-webkit-keyframes topbar-dropdown {
+//   0% {
+//     -webkit-transform: translateY(-100%);
+//     opacity: 0;
+//   }
+
+//   100% {
+//     -webkit-transform: translateY(0);
+//      opacity: 1.0;
+//  }
+// }
+
+// @-moz-keyframes topbar-dropdown {
+//   0% {
+//     -moz-transform: translateY(-100%);
+//      opacity: 0;
+//  }
+
+//   100% {
+//     -moz-transform: translateY(0);
+//      opacity: 1.0;
+//  }
+// }
+
+// @-ms-keyframes topbar-dropdown {
+//   0% {
+//     -ms-transform: translateY(-100%);
+//     opacity: 0;
+//   }
+
+//   100% {
+//     -ms-transform: translateY(0);
+//     opacity: 1.0;
+//   }
+// }
+
+// @keyframes topbar-dropdown {
+//   0% {
+//     transform: translateY(-100%);
+//     opacity: 0;
+//   }
+
+//   100% {
+//     transform: translateY(0);
+//     opacity: 1.0;
+//   }
+// }
+
+// .top-bar .title-area {
+//   position: relative;
+//   z-index: 1;  
+// }
+// .top-bar-section > ul {
+//   z-index: 0;
+// }
+
+// .expanded .top-bar-section > ul {
+//   -webkit-animation: topbar-dropdown 0.5s ease;
+//   -moz-animation: topbar-dropdown 0.5s ease;
+//   -ms-animation: topbar-dropdown 0.5s ease;
+//   animation: topbar-dropdown 0.5s ease;
+// }
+
+// @media screen and (min-width: 768px) {
+//     .top-bar-section > ul {
+//         position: initial;
+//         z-index: initial;
+//     }
+    
+// }

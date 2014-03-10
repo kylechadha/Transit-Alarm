@@ -1,0 +1,21 @@
+<div class="fixed">
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#"><%= image_tag "bus-welcome.png", size: '17', id: 'bus-nav' %> Transit Alarm</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+    </ul>
+  
+    <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right">
+        <li class="active"><%= link_to "Route Selection", routes_path %></li>
+        <li><%= link_to "Preferences", new_journey_path %></li>
+        <li><%= link_to "Map View", routes_path %></li>
+        <li><%= link_to "About", routes_path %></li>
+      </ul>
+    </section>
+  </nav>
+</div>
+    

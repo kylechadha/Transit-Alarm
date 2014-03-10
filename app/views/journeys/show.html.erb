@@ -19,6 +19,8 @@
   var alert_distance_integer = parseFloat(alert_distance);
   var alert_type = "<%= @journey.alert_type %>";
 
+  navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate || null;
+
   $(function(){
     $.get("<%= journey_url(@journey.id) %>.json", function(data){
       start_lat = data.journey.start_lat
@@ -108,13 +110,14 @@
 
       // Check distance against alert_distance
       if (distance < alert_distance_integer) {
+        navigator.vibrate([1000, 500, 1000, 500, 1000, 500, 2000]);
         if (alert_type == "Alarm &amp; Notification") {
           new Audio("/audios/alarm.mp3").play();
-          // new Audio("/audios/buzz.mp3").play();
+          new Audio("/audios/buzz.mp3").play();
           alert("It's time to start packing up. You will be at your stop shortly!");          
           } else if (alert_type == "Alarm") {
             new Audio("/audios/alarm.mp3").play();
-            // new Audio("/audios/buzz.mp3").play();
+            new Audio("/audios/buzz.mp3").play();
           } else if (alert_type == "Notification") {
             alert("It's time to start packing up. You will be at your stop shortly!");          
           } else {
