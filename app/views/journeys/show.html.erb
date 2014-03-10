@@ -145,9 +145,18 @@
       var map = new google.maps.Map(document.getElementById("map-canvas"),
       mapOptions);   
  
- // Kyle - add image url here
-      var image = '<%= asset_path "bus-marker.png" %>';
-        
+      var alertCircle = new google.maps.Circle({
+        map: map,
+        center: endLatLng,
+        radius: alert_distance_integer * 1609, // Radius is in meters
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        });
+
+      var image = '<%= asset_path "bus-marker.png" %>';        
       var marker;
       var infowindow;
       marker = new google.maps.Marker({
