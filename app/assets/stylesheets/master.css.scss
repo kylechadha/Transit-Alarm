@@ -148,6 +148,7 @@ body {
   }
   #closest-stop {
     padding: 0 10px;
+    padding-top: 18px;
     h1 {
       font-size: 1.3em;
       margin-top: 10px;
@@ -158,25 +159,34 @@ body {
       margin: 0;
     }
   }
-  #footer {
+  // #footer {
+  //   position: absolute;
+  //   background-color: #555;
+  //   width: 100%;    
+  //   bottom: 0;
+  //   h2 {
+  //     font-size: 1em;
+  //     padding: 0;
+  //     margin: 0;
+  //   }
+  // }
+  #destination {
     position: absolute;
-    background-color: #555;
+    background-color: #444;
     width: 100%;    
     bottom: 0;
+    padding: 15px 0;
     h2 {
       font-size: 1em;
       padding: 0;
       margin: 0;
     }
   }
-  #destination {
-    padding: 10px 0;
-  }
-  #route {
-    background-color: #333;
-    padding: 10px 0;
-    margin: 0;
-  }
+  // #route {
+  //   background-color: #333;
+  //   padding: 10px 0;
+  //   margin: 0;
+  // }
 }
 
 // @-webkit-keyframes topbar-dropdown {

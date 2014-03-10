@@ -149,11 +149,11 @@
         map: map,
         center: endLatLng,
         radius: alert_distance_integer * 1609, // Radius is in meters
-        strokeColor: '#FF0000',
+        strokeColor: '#104F7C',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35,
+        fillColor: '#84B9DF',
+        fillOpacity: 0.20,
         });
 
       var image = '<%= asset_path "bus-marker.png" %>';        
@@ -217,11 +217,12 @@
   <h1>Closest Stop</h1>
   <h3 id="position"></h3>
 </div>
-<div id="footer">
+
+<!-- <div id="footer"> -->
   <div id="destination" class="text-center">
     <h2>Destination: <%= @journey.stop.desc %></h2>
   </div>
-  <div id="route" class="text-center">
-    <h2><%= @journey.name %></h2>
-  </div>
-</div>
+  <!-- <div id="route" class="text-center"> -->
+    <!--  <h2><%#= @journey.name %></h2> -->
+  <!-- </div> -->
+<!-- </div> -->
