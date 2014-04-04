@@ -1,6 +1,6 @@
 Transit Alarm
 =========
-***
+
 Mobile web app to notify transit commuters when their final destination is approaching. Built with:
 
   - Rails 4
