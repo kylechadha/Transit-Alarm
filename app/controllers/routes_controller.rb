@@ -20,7 +20,6 @@ class RoutesController < ApplicationController
     # Find all the trips that are on the selected route, and in the selected direction
     trips = @route.trips.where(direction_id: params[:direction])
 
-    ## Put all Trip related calculations in the Trip model ##
     # Store the count of stops (via stop_times) in hash with each trip
     trips_hash = {}
     trips.each do |trip|
