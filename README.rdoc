@@ -7,5 +7,3 @@ Mobile web app to notify transit commuters when their final destination is appro
   * Foundation
   * Geolocation API
   * GMaps API
-
-Collaboration with @kbankert.
