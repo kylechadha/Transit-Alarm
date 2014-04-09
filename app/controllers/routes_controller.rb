@@ -20,13 +20,13 @@ class RoutesController < ApplicationController
     # Find all the trips that are on the selected route, and in the selected direction
     trips = @route.trips.where(direction_id: params[:direction])
 
-    # Store the count of stops (via stop_times) in hash with each trip
+    # Store the count of stops (via stop_times) in a hash with each trip
     trips_hash = {}
     trips.each do |trip|
       trips_hash[trip] = trip.stop_times.count
     end
 
-    # Identify which trips have the most number of stops (and store it in an array since there are multiple)
+    # Identify which trips have the most number of stops (and store them in an array since there are multiple)
     longest_trip = trips_hash.select{|k, v| v == trips_hash.values.max }
 
     # Select a random trip in the longest_trip array and store as @trip
@@ -38,6 +38,7 @@ class RoutesController < ApplicationController
     # From the starting stop, we'll figure out what the remaining sequence of stops is
     starting_seq = StopTime.where(trip_id: @trip.id, stop_id: @starting_stop.id).first
 
+    # And then store those in @remaining_stops
     @remaining_stops = StopTime.where(trip_id: @trip.id).where("sequence >= ?", starting_seq.sequence).order('sequence ASC')
   end
 
