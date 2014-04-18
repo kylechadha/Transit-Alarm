@@ -7,5 +7,6 @@ TransitAlarm::Application.routes.draw do
   resources :routes, only: [:index, :show]
   resources :stops, only: [:index]
   resources :journeys, only: [:index, :show, :new, :create]
+  resources :webview, only: [:index]
 
 end

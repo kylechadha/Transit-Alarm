@@ -159,17 +159,6 @@ body {
       margin: 0;
     }
   }
-  // #footer {
-  //   position: absolute;
-  //   background-color: #555;
-  //   width: 100%;    
-  //   bottom: 0;
-  //   h2 {
-  //     font-size: 1em;
-  //     padding: 0;
-  //     margin: 0;
-  //   }
-  // }
   #destination {
     position: absolute;
     background-color: #444;
@@ -182,80 +171,42 @@ body {
       margin: 0;
     }
   }
-  // #route {
-  //   background-color: #333;
-  //   padding: 10px 0;
-  //   margin: 0;
-  // }
 }
 
-// @-webkit-keyframes topbar-dropdown {
-//   0% {
-//     -webkit-transform: translateY(-100%);
-//     opacity: 0;
+#webview {
+  .row {
+    margin: 0;
+  }
+  background-color: white;
+  img {
+    vertical-align: top;
+    width: 400px;
+    height: 727px;
+  }
+  iframe {
+    cursor: pointer;
+    position: absolute;
+    left: 45px;
+    top: 96px;
+    border-radius: 10px;
+    width: 365px;
+    height: 562px;
+    -ms-zoom: 0.85;
+    -moz-transform: scale(0.85);
+    -moz-transform-origin: 0px 0;
+    -o-transform: scale(0.85);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.85);
+    -webkit-transform-origin: 0 0; 
+  }
+}
+
+// @media (min-width: 600px) {
+//   body {
+//     background-color: white;
+//     width: 400px;
+//     max-height: 640px;
 //   }
-
-//   100% {
-//     -webkit-transform: translateY(0);
-//      opacity: 1.0;
-//  }
-// }
-
-// @-moz-keyframes topbar-dropdown {
-//   0% {
-//     -moz-transform: translateY(-100%);
-//      opacity: 0;
-//  }
-
-//   100% {
-//     -moz-transform: translateY(0);
-//      opacity: 1.0;
-//  }
-// }
-
-// @-ms-keyframes topbar-dropdown {
-//   0% {
-//     -ms-transform: translateY(-100%);
-//     opacity: 0;
+//   #container {
 //   }
-
-//   100% {
-//     -ms-transform: translateY(0);
-//     opacity: 1.0;
-//   }
-// }
-
-// @keyframes topbar-dropdown {
-//   0% {
-//     transform: translateY(-100%);
-//     opacity: 0;
-//   }
-
-//   100% {
-//     transform: translateY(0);
-//     opacity: 1.0;
-//   }
-// }
-
-// .top-bar .title-area {
-//   position: relative;
-//   z-index: 1;  
-// }
-// .top-bar-section > ul {
-//   z-index: 0;
-// }
-
-// .expanded .top-bar-section > ul {
-//   -webkit-animation: topbar-dropdown 0.5s ease;
-//   -moz-animation: topbar-dropdown 0.5s ease;
-//   -ms-animation: topbar-dropdown 0.5s ease;
-//   animation: topbar-dropdown 0.5s ease;
-// }
-
-// @media screen and (min-width: 768px) {
-//     .top-bar-section > ul {
-//         position: initial;
-//         z-index: initial;
-//     }
-    
 // }
