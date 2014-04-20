@@ -52,5 +52,3 @@ production:
   encoding: unicode
   database: transit-alarm_production
   pool: 5
-  username: transit-alarm
-  password:
